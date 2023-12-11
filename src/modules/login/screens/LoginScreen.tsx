@@ -2,7 +2,8 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 import { ContainerLogin } from '../styles/loginScreen.styles';
 
@@ -11,6 +12,31 @@ const { Title } = Typography;
 const LoginScreen: React.FC = () => {
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+  };
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+    console.log(email);
+  };
+
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    console.log(password);
+  };
+
+  const handleLogin = async () => {
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost/users/login',
+      data: {
+        email: email,
+        password: password,
+      },
+    });
+    console.log(response);
   };
 
   return (
@@ -25,13 +51,16 @@ const LoginScreen: React.FC = () => {
           LOGIN
         </Title>
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Please input your Username!' }]}
+          name="email"
+          rules={[{ required: true, message: 'Please input your Email!' }]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="E-mail"
+            type="email"
             size="large"
+            onChange={handleEmail}
+            value={email}
           />
         </Form.Item>
         <Form.Item
@@ -43,6 +72,8 @@ const LoginScreen: React.FC = () => {
             type="password"
             placeholder="Password"
             size="large"
+            onChange={handlePassword}
+            value={password}
           />
         </Form.Item>
         <Form.Item>
