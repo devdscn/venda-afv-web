@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
@@ -10,42 +9,44 @@ import { ContainerLogin } from '../styles/loginScreen.styles';
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-  };
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     setEmail(event.target.value);
-    console.log(email);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
     setPassword(event.target.value);
-    console.log(password);
   };
 
   const handleLogin = async () => {
-    const response = await axios({
+    await axios({
       method: 'post',
-      url: 'http://localhost/users/login',
+      url: 'http://localhost:3001/users/login',
       data: {
         email: email,
         password: password,
       },
-    });
-    console.log(response);
+    })
+      .then((result) => {
+        alert(`Fez login ${result.data.token}`);
+        return result.data;
+      })
+      .catch((error) => {
+        alert(`Usuário ou senha iválido: ${error}`);
+      });
   };
 
   return (
     <ContainerLogin>
       <Form
+        onSubmitCapture={handleLogin}
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
-        onFinish={onFinish}
       >
         <Title level={2} className="login">
           LOGIN
