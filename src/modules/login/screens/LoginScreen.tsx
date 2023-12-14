@@ -1,7 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
-//import axios from 'axios';
 import React, { useState } from 'react';
 
 import { useRequests } from '../../../shared/hooks/useRequests';
@@ -10,7 +9,7 @@ import { ContainerLogin } from '../styles/loginScreen.styles';
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
-  const { postRequest } = useRequests();
+  const { postRequest, loading } = useRequests();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,24 +28,6 @@ const LoginScreen: React.FC = () => {
       email: email,
       password: password,
     });
-
-    /*
-    await axios({
-      method: 'post',
-      url: 'http://localhost:3001/users/login',
-      data: {
-        email: email,
-        password: password,
-      },
-    })
-      .then((result) => {
-        alert(`Fez login ${result.data.token}`);
-        return result.data;
-      })
-      .catch((error) => {
-        alert(`Usuário ou senha iválido: ${error}`);
-      });
-      */
   };
 
   return (
@@ -99,6 +80,7 @@ const LoginScreen: React.FC = () => {
         <Form.Item>
           <Button
             type="primary"
+            loading={loading}
             htmlType="submit"
             className="login-form-button"
           >
