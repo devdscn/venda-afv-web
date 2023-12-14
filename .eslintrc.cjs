@@ -12,6 +12,7 @@ module.exports = {
   plugins: ['react-refresh', 'simple-import-sort'],
   rules: {
     'react/prop-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'react-refresh/only-export-components': [
