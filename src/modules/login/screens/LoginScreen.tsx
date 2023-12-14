@@ -1,14 +1,16 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
-import axios from 'axios';
+//import axios from 'axios';
 import React, { useState } from 'react';
 
+import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
 
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
+  const { postRequest } = useRequests();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -23,6 +25,12 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = async () => {
+    postRequest('users/login', {
+      email: email,
+      password: password,
+    });
+
+    /*
     await axios({
       method: 'post',
       url: 'http://localhost:3001/users/login',
@@ -38,6 +46,7 @@ const LoginScreen: React.FC = () => {
       .catch((error) => {
         alert(`Usuário ou senha iválido: ${error}`);
       });
+      */
   };
 
   return (
