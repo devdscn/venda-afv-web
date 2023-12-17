@@ -1,14 +1,17 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { UserGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
 
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
+  const { userData, setUserData } = useContext(UserGlobalContext);
+
   const { postRequest, loading } = useRequests();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,10 +27,16 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    postRequest('users/login', {
+    const result = postRequest('users/login', {
       email: email,
       password: password,
     });
+
+    const { user } = await result;
+
+    const { name } = user;
+
+    setUserData({ name });
   };
 
   return (
@@ -39,7 +48,7 @@ const LoginScreen: React.FC = () => {
         initialValues={{ remember: true }}
       >
         <Title level={2} className="login">
-          LOGIN
+          LOGIN{userData.name}
         </Title>
         <Form.Item
           name="email"

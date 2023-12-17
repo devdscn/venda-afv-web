@@ -20,7 +20,6 @@ export const useRequests = () => {
       .catch(() => {
         alert('Erro');
       });
-    setLoading(false);
   };
 
   const postRequest = async (url: string, body: any) => {
@@ -33,8 +32,8 @@ export const useRequests = () => {
       data: body,
     })
       .then((result) => {
-        alert('Login');
         const { token } = result.data;
+        alert(token);
         console.log(token);
         return result.data;
       })
