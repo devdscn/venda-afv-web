@@ -1,19 +1,20 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-export type UserData = {
+type UserData = {
+  id?: string;
   token?: string;
   name?: string;
   email?: string;
 };
 
-export type UserContextProps = {
+type UserContextProps = {
   userData: UserData;
   setUserData: (userdata: UserData) => void;
 };
 
-export const UserGlobalContext = createContext({} as UserContextProps);
+const UserGlobalContext = createContext({} as UserContextProps);
 
-export type UserProviderProps = {
+type UserProviderProps = {
   children: React.ReactNode;
 };
 
@@ -25,4 +26,10 @@ export const GlobalProvider = ({ children }: UserProviderProps) => {
       {children}
     </UserGlobalContext.Provider>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useGlobalContext = () => {
+  const { userData, setUserData } = useContext(UserGlobalContext);
+  return { userData, setUserData };
 };

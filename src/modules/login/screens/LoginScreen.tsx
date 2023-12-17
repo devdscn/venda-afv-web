@@ -1,17 +1,17 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import { UserGlobalContext } from '../../../shared/hooks/useGlobalContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
 
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
-  const { userData, setUserData } = useContext(UserGlobalContext);
-
+  //hook personalizado useContext
+  const { userData, setUserData } = useGlobalContext();
   const { postRequest, loading } = useRequests();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,11 +32,10 @@ const LoginScreen: React.FC = () => {
       password: password,
     });
 
-    const { user } = await result;
+    const { token, user } = await result;
 
-    const { name } = user;
-
-    setUserData({ name });
+    const { id } = user;
+    setUserData({ token, id });
   };
 
   return (
@@ -48,7 +47,7 @@ const LoginScreen: React.FC = () => {
         initialValues={{ remember: true }}
       >
         <Title level={2} className="login">
-          LOGIN{userData.name}
+          LOGIN {userData.id}
         </Title>
         <Form.Item
           name="email"
