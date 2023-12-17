@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
   //hook personalizado useContext
-  const { userData, setUserData } = useGlobalContext();
+  const { globalData, setGlobalData } = useGlobalContext();
   const { postRequest, loading } = useRequests();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ const LoginScreen: React.FC = () => {
     const { token, user } = await result;
 
     const { id } = user;
-    setUserData({ token, id });
+    setGlobalData({ token, id });
   };
 
   return (
@@ -47,7 +47,7 @@ const LoginScreen: React.FC = () => {
         initialValues={{ remember: true }}
       >
         <Title level={2} className="login">
-          LOGIN {userData.id}
+          LOGIN {globalData.id}
         </Title>
         <Form.Item
           name="email"

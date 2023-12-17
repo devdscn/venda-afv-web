@@ -1,35 +1,35 @@
 import { createContext, useContext, useState } from 'react';
 
-type UserData = {
+type GlobalData = {
   id?: string;
   token?: string;
   name?: string;
   email?: string;
 };
 
-type UserContextProps = {
-  userData: UserData;
-  setUserData: (userdata: UserData) => void;
+type GlobalContextProps = {
+  globalData: GlobalData;
+  setGlobalData: (globalData: GlobalData) => void;
 };
 
-const UserGlobalContext = createContext({} as UserContextProps);
+const GlobalContext = createContext({} as GlobalContextProps);
 
-type UserProviderProps = {
+type GlobalProviderProps = {
   children: React.ReactNode;
 };
 
-export const GlobalProvider = ({ children }: UserProviderProps) => {
-  const [userData, setUserData] = useState<UserData>({});
+export const GlobalProvider = ({ children }: GlobalProviderProps) => {
+  const [globalData, setGlobalData] = useState<GlobalData>({});
 
   return (
-    <UserGlobalContext.Provider value={{ userData, setUserData }}>
+    <GlobalContext.Provider value={{ globalData, setGlobalData }}>
       {children}
-    </UserGlobalContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalContext = () => {
-  const { userData, setUserData } = useContext(UserGlobalContext);
-  return { userData, setUserData };
+  const { globalData, setGlobalData } = useContext(GlobalContext);
+  return { globalData, setGlobalData };
 };
