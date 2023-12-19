@@ -9,6 +9,7 @@ import {
 
 //import LoginScreen from './modules/login';
 import { loginRoutes } from './modules/login/routes';
+import { useNotification } from './shared/hooks/useNotification';
 
 const mainRoutes: RouteObject[] = [
   {
@@ -21,21 +22,16 @@ const mainRoutes: RouteObject[] = [
 const router: RemixRouter = createBrowserRouter([
   ...mainRoutes,
   ...loginRoutes,
-]); /*
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <div>Hello world!</div>,
-  },
-  {
-    path: '/login',
-    element: <LoginScreen />,
-  },
 ]);
-*/
+
 function App() {
-  return <RouterProvider router={router} />;
+  const { contextHolder } = useNotification();
+  return (
+    <>
+      {contextHolder}
+      <RouterProvider router={router} />;
+    </>
+  );
 }
 
 export default App;

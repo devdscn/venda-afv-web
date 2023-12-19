@@ -27,12 +27,12 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    const result = postRequest('users/login', {
+    const result = await postRequest('users/login', {
       email: email,
       password: password,
     });
 
-    const { token, user } = await result;
+    const { token, user } = result;
 
     const { id } = user;
     setGlobalData({ token, id });

@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { useGlobalContext } from './useGlobalContext';
+
 const baseUrl = 'http://localhost:3001';
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
+  const { setNotification } = useGlobalContext();
 
   const getRequest = async (url: string) => {
     setLoading(true);
@@ -15,16 +18,14 @@ export const useRequests = () => {
       url: url,
     })
       .then((result) => {
+        setNotification('Entrando...', 'success');
         return result.data;
       })
-      .catch(() => {
-        alert('Erro');
-      });
+      .catch(() => {});
   };
 
   const postRequest = async (url: string, body: any) => {
     setLoading(true);
-
     const returnData = await axios({
       method: 'post',
       baseURL: baseUrl,
@@ -32,13 +33,13 @@ export const useRequests = () => {
       data: body,
     })
       .then((result) => {
-        const { token } = result.data;
-        alert(token);
-        console.log(token);
+        setNotification('Entrando...', 'success');
+        console.log(`REsultado:`);
+
         return result.data;
       })
       .catch(() => {
-        alert('Erro');
+        setNotification('Erro...', 'error');
       });
 
     setLoading(false);

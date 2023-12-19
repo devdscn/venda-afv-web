@@ -1,10 +1,19 @@
 import { createContext, useContext, useState } from 'react';
 
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+interface NotificationProps {
+  message: string;
+  type: NotificationType;
+  description?: string;
+}
+
 type GlobalData = {
   id?: string;
   token?: string;
   name?: string;
   email?: string;
+  notification?: NotificationProps;
 };
 
 type GlobalContextProps = {
@@ -31,5 +40,35 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export const useGlobalContext = () => {
   const { globalData, setGlobalData } = useContext(GlobalContext);
-  return { globalData, setGlobalData };
+
+  const setAccessToken = (token: string) => {
+    setGlobalData({
+      ...globalData,
+      token,
+    });
+  };
+
+  const setNotification = (
+    message: string,
+    type: NotificationType,
+    description?: string,
+  ) => {
+    setGlobalData({
+      ...globalData,
+      notification: {
+        message,
+        type,
+        description,
+      },
+    });
+    console.log(`globalData?.notification:${globalData?.notification?.type}`);
+  };
+
+  return {
+    notification: globalData?.notification,
+    globalData,
+    setAccessToken,
+    setGlobalData,
+    setNotification,
+  };
 };
