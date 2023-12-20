@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { connectionAPIPost } from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 const baseUrl = 'http://localhost:3001';
@@ -24,28 +25,22 @@ export const useRequests = () => {
       .catch(() => {});
   };
 
-  const postRequest = async (url: string, body: any) => {
+  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
     setLoading(true);
-    const returnData = await axios({
-      method: 'post',
-      baseURL: baseUrl,
-      url: url,
-      data: body,
-    })
+
+    const returnData = await connectionAPIPost<T>(baseUrl + url, body)
       .then((result) => {
         setNotification('Entrando...', 'success');
-        console.log(`REsultado:`);
-
-        return result.data;
+        return result;
       })
-      .catch(() => {
-        setNotification('Erro...', 'error');
+      .catch((error: Error) => {
+        setNotification(error.message, 'error');
+        return undefined;
       });
 
     setLoading(false);
     return returnData;
   };
-
   return {
     loading,
     getRequest,

@@ -1,4 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import {
+  getAuthorizationToken,
+  setAuthorizationToken,
+} from '../functions/connection/auth';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
@@ -8,24 +13,21 @@ interface NotificationProps {
   description?: string;
 }
 
-type GlobalData = {
-  id?: string;
-  token?: string;
-  name?: string;
-  email?: string;
+interface GlobalData {
+  accessToken?: string;
   notification?: NotificationProps;
-};
+}
 
-type GlobalContextProps = {
+interface GlobalContextProps {
   globalData: GlobalData;
   setGlobalData: (globalData: GlobalData) => void;
-};
+}
 
 const GlobalContext = createContext({} as GlobalContextProps);
 
-type GlobalProviderProps = {
+interface GlobalProviderProps {
   children: React.ReactNode;
-};
+}
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [globalData, setGlobalData] = useState<GlobalData>({});
@@ -41,13 +43,21 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 export const useGlobalContext = () => {
   const { globalData, setGlobalData } = useContext(GlobalContext);
 
-  const setAccessToken = (token: string) => {
+  useEffect(() => {
+    const token = getAuthorizationToken();
+    if (token) {
+      setAccessToken(token);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const setAccessToken = (accessToken: string) => {
+    setAuthorizationToken(accessToken);
     setGlobalData({
       ...globalData,
-      token,
+      accessToken,
     });
   };
-
   const setNotification = (
     message: string,
     type: NotificationType,
@@ -61,14 +71,11 @@ export const useGlobalContext = () => {
         description,
       },
     });
-    console.log(`globalData?.notification:${globalData?.notification?.type}`);
   };
-
   return {
     notification: globalData?.notification,
-    globalData,
+    accessToken: globalData?.accessToken,
     setAccessToken,
-    setGlobalData,
     setNotification,
   };
 };
