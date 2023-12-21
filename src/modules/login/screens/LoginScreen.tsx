@@ -3,7 +3,6 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
 import React, { useState } from 'react';
 
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
 import { UserType } from '../types/UserType';
@@ -11,8 +10,6 @@ import { UserType } from '../types/UserType';
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
-  //hook personalizado useContext
-  const { accessToken, setAccessToken } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { postRequest, loading } = useRequests();
@@ -27,14 +24,11 @@ const LoginScreen: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = async () => {
-    const user = await postRequest<UserType>('/users/login', {
+  const handleLogin = () => {
+    postRequest<UserType>('/users/login', {
       email: email,
       password: password,
     });
-
-    setAccessToken(user?.token || '');
-    console.log(`Token:${accessToken}`);
   };
 
   return (
@@ -46,7 +40,7 @@ const LoginScreen: React.FC = () => {
         initialValues={{ remember: true }}
       >
         <Title level={2} className="login">
-          LOGIN {accessToken}
+          LOGIN
         </Title>
         <Form.Item
           name="email"
