@@ -5,14 +5,13 @@ import React, { useState } from 'react';
 
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
-import { UserType } from '../types/UserType';
 
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { postRequest, loading } = useRequests();
+  const { authRequest, loading } = useRequests();
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -25,7 +24,7 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = () => {
-    postRequest<UserType>('/users/login', {
+    authRequest({
       email: email,
       password: password,
     });
