@@ -15,7 +15,7 @@ const baseUrl = 'http://localhost:3001';
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setNotification } = useGlobalContext();
+  const { setNotification, setUser } = useGlobalContext();
 
   const getRequest = async (url: string) => {
     setLoading(true);
@@ -56,6 +56,8 @@ export const useRequests = () => {
     await connectionAPIPost<Authtype>(URL_AUTH, body)
       .then((result) => {
         setNotification('Entrando...', 'success');
+        setUser(result.user);
+
         //grava token no localStorage
         setAuthorizationToken(result.token);
         navigate(ProdutoRoutesEnum.PRODUTO);

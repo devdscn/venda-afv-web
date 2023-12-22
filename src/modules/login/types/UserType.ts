@@ -1,3 +1,5 @@
 export interface UserType {
-  token: string;
+  id: string;
+  email: string;
+  name: string | null;
 }

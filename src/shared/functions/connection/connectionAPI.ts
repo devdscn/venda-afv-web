@@ -16,7 +16,6 @@ export default class ConnectionAPI {
     switch (method) {
       case MethodsEnum.GET:
         return (await axios.get<T>(url, config)).data;
-        console.log(`CONFIG>>>>:${config}`);
       case MethodsEnum.DELETE:
         return (await axios.delete<T>(url, config)).data;
       case MethodsEnum.POST:
