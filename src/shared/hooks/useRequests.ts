@@ -30,7 +30,7 @@ export const useRequests = () => {
         if (saveGlobal) {
           saveGlobal(result);
         }
-        setNotification('Entrando...', 'success');
+        // setNotification('Entrando...', 'success');
         return result;
       })
       .catch((error: Error) => {
@@ -40,24 +40,6 @@ export const useRequests = () => {
 
     setLoading(false);
     return retunrObject;
-  };
-
-  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
-    setLoading(true);
-
-    const returnData = await connectionAPIPost<T>(url, body)
-      .then((result) => {
-        setNotification('Entrando...', 'success');
-
-        return result;
-      })
-      .catch((error: Error) => {
-        setNotification(error.message, 'error');
-        return undefined;
-      });
-
-    setLoading(false);
-    return returnData;
   };
 
   const authRequest = async (body: unknown): Promise<void> => {
@@ -85,6 +67,6 @@ export const useRequests = () => {
     loading,
     authRequest,
     request,
-    postRequest,
+
   };
 };
