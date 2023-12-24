@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,29 +6,40 @@ import { ProdutoRoutesEnum } from '../../modules/produto/routes';
 import { ERRO_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connection/auth';
-import { connectionAPIPost } from '../functions/connection/connectionAPI';
+import ConnectionAPI, {
+  connectionAPIPost,
+  MethodType,
+} from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
-
-const baseUrl = 'http://localhost:3001';
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setNotification, setUser } = useGlobalContext();
 
-  const getRequest = async (url: string) => {
+  const request = async <T>(
+    url: string,
+    method: MethodType,
+    saveGlobal?: (object: T) => void,
+    body?: unknown,
+  ): Promise<T | undefined> => {
     setLoading(true);
 
-    return await axios({
-      method: 'get',
-      baseURL: baseUrl,
-      url: url,
-    })
+    const retunrObject: T | undefined = await ConnectionAPI.connect<T>(url, method, body)
       .then((result) => {
+        if (saveGlobal) {
+          saveGlobal(result);
+        }
         setNotification('Entrando...', 'success');
-        return result.data;
+        return result;
       })
-      .catch(() => {});
+      .catch((error: Error) => {
+        setNotification(error.message, 'error');
+        return undefined;
+      });
+
+    setLoading(false);
+    return retunrObject;
   };
 
   const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
@@ -74,7 +84,7 @@ export const useRequests = () => {
   return {
     loading,
     authRequest,
-    getRequest,
+    request,
     postRequest,
   };
 };
