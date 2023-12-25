@@ -13,9 +13,7 @@ const FirstScreen: React.FC = () => {
     if (user) {
       nagivate(ProdutoRoutesEnum.PRODUTO);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return <Spin size="large" />;
 };

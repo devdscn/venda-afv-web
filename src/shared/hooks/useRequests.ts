@@ -43,6 +43,7 @@ export const useRequests = () => {
   };
 
   const authRequest = async (body: unknown): Promise<void> => {
+    
     setLoading(true);
 
     await connectionAPIPost<Authtype>(URL_AUTH, body)
@@ -67,6 +68,5 @@ export const useRequests = () => {
     loading,
     authRequest,
     request,
-
   };
 };
