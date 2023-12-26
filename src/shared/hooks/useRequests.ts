@@ -43,7 +43,6 @@ export const useRequests = () => {
   };
 
   const authRequest = async (body: unknown): Promise<void> => {
-    
     setLoading(true);
 
     await connectionAPIPost<Authtype>(URL_AUTH, body)
@@ -53,7 +52,7 @@ export const useRequests = () => {
 
         //grava token no localStorage
         setAuthorizationToken(result.token);
-        navigate(ProdutoRoutesEnum.PRODUTO);
+        navigate(ProdutoRoutesEnum.PRODUTO_EMPRESA);
         return result;
       })
       .catch(() => {
