@@ -1,6 +1,6 @@
 import { Tag } from 'antd';
 
-import { ProdutoTypes } from '../../modules/produto/types/ProdutoTypes';
+import { ProdutoTypes } from '../types/ProdutoTypes';
 
 interface GrupoColunaProps {
   nomeGrupo?: ProdutoTypes;
