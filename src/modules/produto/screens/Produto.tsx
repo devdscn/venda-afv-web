@@ -1,6 +1,7 @@
 import { Button } from 'antd';
+import { Input } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Screen from '../../../shared/components/screen/Screen';
@@ -11,7 +12,10 @@ import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import GrupoColuna from '../components/GrupoColuna';
 import { ProdutoRoutesEnum } from '../routes';
+import { BoxButtons, LimitSize } from '../styles/produto.style';
 import { ProdutoTypes } from '../types/ProdutoTypes';
+
+const { Search } = Input;
 
 const columns: ColumnsType<ProdutoTypes> = [
   {
@@ -29,7 +33,15 @@ const columns: ColumnsType<ProdutoTypes> = [
     title: 'Nome',
     dataIndex: 'nome',
     key: 'nome',
+    sorter: (a, b) => a.nome.localeCompare(b.nome),
     render: (text) => <a>{text}</a>,
+  },
+  {
+    title: 'Grupo',
+    dataIndex: 'nomeGrupo',
+    key: 'nomeGrupo',
+    sorter: (a, b) => a.nomeGrupo.localeCompare(b.nomeGrupo),
+    render: (_, produto) => <GrupoColuna nomeGrupo={produto} />,
   },
   {
     title: 'Preço',
@@ -37,18 +49,17 @@ const columns: ColumnsType<ProdutoTypes> = [
     key: 'preco',
     render: (_, produto) => <a>{convertNumberToMoney(produto.preco)}</a>,
   },
-  {
-    title: 'Grupo',
-    dataIndex: 'nomeGrupo',
-    key: 'nomeGrupo',
-    render: (_, produto) => <GrupoColuna nomeGrupo={produto} />,
-  },
 ];
 
 const Produto = () => {
   const { produtos, setProdutos } = useDataContext();
+  const [produtosFiltrados, setProdutosFiltrados] = useState<ProdutoTypes[]>([]);
   const { request } = useRequests();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setProdutosFiltrados([...produtos]);
+  }, [produtos]);
 
   useEffect(() => {
     request<ProdutoTypes[]>(
@@ -62,6 +73,17 @@ const Produto = () => {
     navigate(ProdutoRoutesEnum.PRODUTO_CONSULTAR);
   };
 
+  const onSearch = (value: string) => {
+    console.log(value);
+    if (!value) {
+      setProdutosFiltrados([...produtos]);
+    } else {
+      return setProdutosFiltrados([
+        ...produtosFiltrados.filter((produto) => produto.nome.includes(value)),
+      ]);
+    }
+  };
+
   return (
     <Screen
       listBreadcrumb={[
@@ -73,10 +95,15 @@ const Produto = () => {
         },
       ]}
     >
-      <Button onClick={handleOnclickConsultar} type="primary">
-        Consultar
-      </Button>
-      <Table columns={columns} dataSource={produtos} />
+      <BoxButtons>
+        <LimitSize>
+          <Search placeholder="Buscar produto" onSearch={onSearch} enterButton />
+        </LimitSize>
+        <Button onClick={handleOnclickConsultar} type="primary">
+          Consultar
+        </Button>
+      </BoxButtons>
+      <Table columns={columns} dataSource={produtosFiltrados} />
     </Screen>
   );
 };
