@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { Input } from 'antd';
-import Table, { ColumnsType } from 'antd/es/table';
+import Table, { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -74,14 +74,24 @@ const Produto = () => {
   };
 
   const onSearch = (value: string) => {
-    console.log(value);
     if (!value) {
       setProdutosFiltrados([...produtos]);
     } else {
       return setProdutosFiltrados([
-        ...produtosFiltrados.filter((produto) => produto.nome.includes(value)),
+        ...produtosFiltrados.filter((produto) =>
+          produto.nome.includes(value.toUpperCase()),
+        ),
       ]);
     }
+  };
+
+  const paginaConfig: TablePaginationConfig = {
+    defaultPageSize: 10,
+    size: 'small',
+    total: produtosFiltrados.length,
+    showTotal: (total, defaultPageSize) =>
+      `${defaultPageSize[0]}-${defaultPageSize[1]} of ${total} produtos`,
+    showTitle: true,
   };
 
   return (
@@ -103,7 +113,11 @@ const Produto = () => {
           Consultar
         </Button>
       </BoxButtons>
-      <Table columns={columns} dataSource={produtosFiltrados} />
+      <Table
+        columns={columns}
+        dataSource={produtosFiltrados}
+        pagination={paginaConfig}
+      ></Table>
     </Screen>
   );
 };

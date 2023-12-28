@@ -7,16 +7,18 @@ interface GrupoColunaProps {
 }
 
 const colors: string[] = [
-  'green',
+  'pink',
   'red',
+  'yellow',
   'orange',
-  'gold',
-  'volcano',
   'cyan',
-  'magenta',
+  'green',
   'blue',
-  'geekblue',
   'purple',
+  'geekblue',
+  'magenta',
+  'volcano',
+  'gold',
   'lime',
 ];
 
