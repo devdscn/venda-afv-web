@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Authtype } from '../../modules/login/types/AuthType';
-import { ProdutoRoutesEnum } from '../../modules/produto/routes';
+import { UsuarioRoutesEnum } from '../../modules/usuario/routes';
 import { ERRO_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connection/auth';
@@ -52,7 +52,7 @@ export const useRequests = () => {
 
         //grava token no localStorage
         setAuthorizationToken(result.token);
-        navigate(ProdutoRoutesEnum.PRODUTO_EMPRESA);
+        navigate(UsuarioRoutesEnum.USUARIOS);
         return result;
       })
       .catch(() => {

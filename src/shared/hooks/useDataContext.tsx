@@ -1,9 +1,11 @@
 import { createContext, useContext, useState } from 'react';
 
 import { ProdutoTypes } from '../../modules/produto/types/ProdutoTypes';
+import { UsuarioTypes } from '../types/UsuarioTypes';
 
 interface DataContext {
   produtos?: ProdutoTypes[];
+  usuarios?: UsuarioTypes[];
 }
 
 interface DataContextProps {
@@ -33,8 +35,13 @@ export const useDataContext = () => {
     setData({ ...data, produtos });
   };
 
+  const setUsuarios = (usuarios: UsuarioTypes[]) => {
+    setData({ ...data, usuarios });
+  };
   return {
     produtos: data?.produtos || [],
+    usuarios: data?.usuarios || [],
     setProdutos,
+    setUsuarios,
   };
 };
