@@ -51,17 +51,17 @@ const Usuario = () => {
     <Screen
       listBreadcrumb={[
         {
-          name: 'HOME',
+          name: 'Home',
         },
         {
-          name: 'USUÁRIOS',
+          name: 'Usuários',
         },
       ]}
     >
       <BoxButtons>
         <LimitSize></LimitSize>
         <Button onClick={handleOnClickInserir} type="primary">
-          Incluir
+          Cadastrar
         </Button>
       </BoxButtons>
       <Table columns={columns} dataSource={usuarios}></Table>

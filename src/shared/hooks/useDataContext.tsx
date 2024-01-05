@@ -2,10 +2,12 @@ import { createContext, useContext, useState } from 'react';
 
 import { ProdutoTypes } from '../../modules/produto/types/ProdutoTypes';
 import { UsuarioTypes } from '../types/UsuarioTypes';
+import { VendedorTypes } from '../types/VendedorTypes';
 
 interface DataContext {
   produtos?: ProdutoTypes[];
   usuarios?: UsuarioTypes[];
+  vendedores?: VendedorTypes[];
 }
 
 interface DataContextProps {
@@ -38,10 +40,17 @@ export const useDataContext = () => {
   const setUsuarios = (usuarios: UsuarioTypes[]) => {
     setData({ ...data, usuarios });
   };
+
+  const setVendedores = (vendedores: VendedorTypes[]) => {
+    setData({ ...data, vendedores });
+  };
+
   return {
     produtos: data?.produtos || [],
     usuarios: data?.usuarios || [],
+    vendedores: data?.vendedores || [],
     setProdutos,
     setUsuarios,
+    setVendedores,
   };
 };
