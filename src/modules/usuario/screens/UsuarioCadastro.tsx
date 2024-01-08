@@ -1,9 +1,11 @@
 import { Button, Form, Input, Select } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Screen from '../../../shared/components/screen/Screen';
-import { URL_VENDEDORES } from '../../../shared/constants/urls';
+import { URL_USUARIO, URL_VENDEDORES } from '../../../shared/constants/urls';
+import { CadastroUsuario } from '../../../shared/dtos/CadastroUsuario.dto';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
+import { connectionAPIPost } from '../../../shared/functions/connection/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { UsuarioRoutesEnum } from '../routes';
@@ -26,6 +28,12 @@ const validateMessages = {
 
 const UsuarioCadastro: React.FC = () => {
   const { vendedores, setVendedores } = useDataContext();
+  const [usuario, setUsuario] = useState<CadastroUsuario>({
+    email: '  ',
+    name: '',
+    password: '',
+    idVendedor: 0,
+  });
   const { request } = useRequests();
 
   useEffect(() => {
@@ -34,8 +42,39 @@ const UsuarioCadastro: React.FC = () => {
     }
   }, []);
 
-  const handleChange = (value: number) => {
-    console.log(`vendedor ${value}`);
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsuario({
+      ...usuario,
+      email: event.target.value,
+    });
+    console.log(`vendedor ${usuario.email}`);
+  };
+
+  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsuario({
+      ...usuario,
+      name: event.target.value,
+    });
+    console.log(`vendedor ${usuario.name}`);
+  };
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsuario({
+      ...usuario,
+      password: event.target.value,
+    });
+    console.log(`vendedor ${usuario.password}`);
+  };
+
+  const handleVendedor = (value: string) => {
+    setUsuario({
+      ...usuario,
+      idVendedor: Number(value),
+    });
+    console.log(`vendedor ${usuario.idVendedor}`);
+  };
+
+  const handleCadastroUsuario = () => {
+    connectionAPIPost(URL_USUARIO, usuario);
   };
 
   return (
@@ -50,7 +89,7 @@ const UsuarioCadastro: React.FC = () => {
         },
 
         {
-          name: 'Cadastrar usuário',
+          name: 'Cadastrar Usuário',
         },
       ]}
     >
@@ -65,15 +104,30 @@ const UsuarioCadastro: React.FC = () => {
           label="Email"
           rules={[{ required: true, type: 'email' }]}
         >
-          <Input placeholder="e-mail" type="email" />
+          <Input
+            value={usuario.email}
+            placeholder="e-mail"
+            type="email"
+            onChange={handleEmail}
+          />
         </Form.Item>
 
         <Form.Item name={'nome'} label="Nome" rules={[{ required: true }]}>
-          <Input placeholder="nome" type="text" />
+          <Input
+            value={usuario.name}
+            placeholder="nome"
+            type="text"
+            onChange={handleName}
+          />
         </Form.Item>
 
         <Form.Item name={'password'} label="Senha" rules={[{ required: true }]}>
-          <Input placeholder="password" type="password" />
+          <Input
+            value={usuario.password}
+            placeholder="password"
+            type="password"
+            onChange={handlePassword}
+          />
         </Form.Item>
 
         <Form.Item name={'vendedor'} label="Vendedor">
@@ -85,11 +139,11 @@ const UsuarioCadastro: React.FC = () => {
               value: `${vendedor.idVendedor}`,
               label: ` ${vendedor.idVendedor}-${vendedor.nome}`,
             }))}
-            onChange={handleChange}
+            onChange={handleVendedor}
           />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={handleCadastroUsuario}>
             Gravar
           </Button>
         </Form.Item>
