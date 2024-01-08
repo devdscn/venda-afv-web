@@ -13,7 +13,7 @@ export const useNotification = () => {
       api[notification.type]({
         message: `${notification.message}`,
         description: notification.description,
-        placement: 'bottomRight',
+        placement: 'topRight',
       });
     }
   }, [api, notification]);

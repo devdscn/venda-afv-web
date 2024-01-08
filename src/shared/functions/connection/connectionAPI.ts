@@ -31,10 +31,13 @@ export default class ConnectionAPI {
   static async connect<T>(url: string, method: MethodType, body?: unknown): Promise<T> {
     return ConnectionAPI.call<T>(url, method, body).catch((error) => {
       if (error.response) {
+        const { message } = error.response.data;
         switch (error.response.status) {
           case 401:
           case 403:
             throw new Error(ERROR_ACCESS_DANIED);
+          case 400:
+            throw new Error(message);
           default:
             throw new Error(ERROR_CONNECTION);
         }

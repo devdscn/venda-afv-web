@@ -1,5 +1,6 @@
-import { Button, Form, Input, Select } from 'antd';
+import { Button, Flex, Form, Input, Select } from 'antd';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Screen from '../../../shared/components/screen/Screen';
 import { URL_USUARIO, URL_VENDEDORES } from '../../../shared/constants/urls';
@@ -7,6 +8,7 @@ import { CadastroUsuario } from '../../../shared/dtos/CadastroUsuario.dto';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { connectionAPIPost } from '../../../shared/functions/connection/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { UsuarioRoutesEnum } from '../routes';
 
@@ -28,6 +30,7 @@ const validateMessages = {
 
 const UsuarioCadastro: React.FC = () => {
   const { vendedores, setVendedores } = useDataContext();
+  const { setNotification } = useGlobalContext();
   const [usuario, setUsuario] = useState<CadastroUsuario>({
     email: '  ',
     name: '',
@@ -35,6 +38,7 @@ const UsuarioCadastro: React.FC = () => {
     idVendedor: 0,
   });
   const { request } = useRequests();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (vendedores.length === 0) {
@@ -47,7 +51,6 @@ const UsuarioCadastro: React.FC = () => {
       ...usuario,
       email: event.target.value,
     });
-    console.log(`vendedor ${usuario.email}`);
   };
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,14 +58,12 @@ const UsuarioCadastro: React.FC = () => {
       ...usuario,
       name: event.target.value,
     });
-    console.log(`vendedor ${usuario.name}`);
   };
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsuario({
       ...usuario,
       password: event.target.value,
     });
-    console.log(`vendedor ${usuario.password}`);
   };
 
   const handleVendedor = (value: string) => {
@@ -70,11 +71,21 @@ const UsuarioCadastro: React.FC = () => {
       ...usuario,
       idVendedor: Number(value),
     });
-    console.log(`vendedor ${usuario.idVendedor}`);
   };
 
-  const handleCadastroUsuario = () => {
-    connectionAPIPost(URL_USUARIO, usuario);
+  const handleCadastroUsuario = async () => {
+    await connectionAPIPost(URL_USUARIO, usuario)
+      .then(() => {
+        setNotification('Sucesso!', 'success', 'Usuário cadastrado com sucesso!');
+        navigate(UsuarioRoutesEnum.USUARIOS);
+      })
+      .catch((error: Error) => {
+        setNotification('Falha!', 'error', error.message);
+      });
+  };
+
+  const handleOnClickCancelar = () => {
+    navigate(UsuarioRoutesEnum.USUARIOS);
   };
 
   return (
@@ -143,9 +154,15 @@ const UsuarioCadastro: React.FC = () => {
           />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit" onClick={handleCadastroUsuario}>
-            Gravar
-          </Button>
+          <Flex wrap="wrap" gap="small">
+            <Button type="primary" htmlType="submit" onClick={handleCadastroUsuario}>
+              Gravar
+            </Button>
+
+            <Button type="dashed" danger onClick={handleOnClickCancelar}>
+              Cancelar
+            </Button>
+          </Flex>
         </Form.Item>
       </Form>
     </Screen>
