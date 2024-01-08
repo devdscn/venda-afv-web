@@ -1,15 +1,13 @@
 import { Button, Flex, Form, Input, Select } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Screen from '../../../shared/components/screen/Screen';
-import { URL_USUARIO, URL_VENDEDORES } from '../../../shared/constants/urls';
-import { CadastroUsuario } from '../../../shared/dtos/CadastroUsuario.dto';
+import { URL_VENDEDORES } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { connectionAPIPost } from '../../../shared/functions/connection/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
+import { useCadastraUsuario } from '../hooks/useCadastraUsuario';
 import { UsuarioRoutesEnum } from '../routes';
 
 const layout = {
@@ -29,14 +27,18 @@ const validateMessages = {
 };
 
 const UsuarioCadastro: React.FC = () => {
+  const {
+    usuario,
+    loading,
+    disablebButton,
+    handleEmail,
+    handleName,
+    handlePassword,
+    handleVendedor,
+    handleCadastroUsuario,
+  } = useCadastraUsuario();
   const { vendedores, setVendedores } = useDataContext();
-  const { setNotification } = useGlobalContext();
-  const [usuario, setUsuario] = useState<CadastroUsuario>({
-    email: '  ',
-    name: '',
-    password: '',
-    idVendedor: 0,
-  });
+
   const { request } = useRequests();
   const navigate = useNavigate();
 
@@ -45,44 +47,6 @@ const UsuarioCadastro: React.FC = () => {
       request(URL_VENDEDORES, MethodsEnum.GET, setVendedores);
     }
   }, []);
-
-  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsuario({
-      ...usuario,
-      email: event.target.value,
-    });
-  };
-
-  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsuario({
-      ...usuario,
-      name: event.target.value,
-    });
-  };
-  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsuario({
-      ...usuario,
-      password: event.target.value,
-    });
-  };
-
-  const handleVendedor = (value: string) => {
-    setUsuario({
-      ...usuario,
-      idVendedor: Number(value),
-    });
-  };
-
-  const handleCadastroUsuario = async () => {
-    await connectionAPIPost(URL_USUARIO, usuario)
-      .then(() => {
-        setNotification('Sucesso!', 'success', 'Usuário cadastrado com sucesso!');
-        navigate(UsuarioRoutesEnum.USUARIOS);
-      })
-      .catch((error: Error) => {
-        setNotification('Falha!', 'error', error.message);
-      });
-  };
 
   const handleOnClickCancelar = () => {
     navigate(UsuarioRoutesEnum.USUARIOS);
@@ -155,7 +119,13 @@ const UsuarioCadastro: React.FC = () => {
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Flex wrap="wrap" gap="small">
-            <Button type="primary" htmlType="submit" onClick={handleCadastroUsuario}>
+            <Button
+              loading={loading}
+              disabled={disablebButton}
+              type="primary"
+              htmlType="submit"
+              onClick={handleCadastroUsuario}
+            >
               Gravar
             </Button>
 
