@@ -18,19 +18,21 @@ const Breadcrumb = ({ listBreadcrumb }: BreadcrumbProps) => {
   };
 
   return (
-    <BreadcrumbAntd>
-      {listBreadcrumb.map((breadcrumb, index) => (
-        <BreadcrumbAntd.Item key={`breadcrumb_${index}`}>
-          {breadcrumb.navigateTo ? (
-            <a onClick={() => handleGoToClick(breadcrumb.navigateTo || '')}>
-              {breadcrumb.name}
-            </a>
-          ) : (
-            breadcrumb.name
-          )}
-        </BreadcrumbAntd.Item>
-      ))}
-    </BreadcrumbAntd>
+    <>
+      <BreadcrumbAntd style={{ margin: '16px 0' }}>
+        {listBreadcrumb.map((breadcrumb, index) => (
+          <BreadcrumbAntd.Item key={`breadcrumb_${index}`}>
+            {breadcrumb.navigateTo ? (
+              <a onClick={() => handleGoToClick(breadcrumb.navigateTo || '')}>
+                {breadcrumb.name}
+              </a>
+            ) : (
+              breadcrumb.name
+            )}
+          </BreadcrumbAntd.Item>
+        ))}
+      </BreadcrumbAntd>
+    </>
   );
 };
 

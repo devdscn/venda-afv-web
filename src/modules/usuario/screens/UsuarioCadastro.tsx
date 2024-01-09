@@ -1,4 +1,5 @@
-import { Button, Flex, Form, Input, Select } from 'antd';
+import { Button, Flex, Form, Input, Select, theme } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +8,7 @@ import { URL_VENDEDORES } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
+import { BoxButtons, LimitSize } from '../../produto/styles/produto.style';
 import { useCadastraUsuario } from '../hooks/useCadastraUsuario';
 import { UsuarioRoutesEnum } from '../routes';
 
@@ -27,6 +29,10 @@ const validateMessages = {
 };
 
 const UsuarioCadastro: React.FC = () => {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   const {
     usuario,
     loading,
@@ -68,73 +74,87 @@ const UsuarioCadastro: React.FC = () => {
         },
       ]}
     >
-      <Form
-        name="nest-messages"
-        style={{ maxWidth: 600 }}
-        {...layout}
-        validateMessages={validateMessages}
-      >
-        <Form.Item
-          name={'email'}
-          label="Email"
-          rules={[{ required: true, type: 'email' }]}
+      <BoxButtons>
+        <LimitSize></LimitSize>
+      </BoxButtons>
+      <Content>
+        <div
+          style={{
+            padding: 24,
+            minHeight: 360,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
         >
-          <Input
-            value={usuario.email}
-            placeholder="e-mail"
-            type="email"
-            onChange={handleEmail}
-          />
-        </Form.Item>
-
-        <Form.Item name={'nome'} label="Nome" rules={[{ required: true }]}>
-          <Input
-            value={usuario.name}
-            placeholder="nome"
-            type="text"
-            onChange={handleName}
-          />
-        </Form.Item>
-
-        <Form.Item name={'password'} label="Senha" rules={[{ required: true }]}>
-          <Input
-            value={usuario.password}
-            placeholder="password"
-            type="password"
-            onChange={handlePassword}
-          />
-        </Form.Item>
-
-        <Form.Item name={'vendedor'} label="Vendedor">
-          <Select
-            showSearch
-            style={{ width: '100%' }}
-            placeholder="selecionar vendedor"
-            options={vendedores.map((vendedor) => ({
-              value: `${vendedor.idVendedor}`,
-              label: ` ${vendedor.idVendedor}-${vendedor.nome}`,
-            }))}
-            onChange={handleVendedor}
-          />
-        </Form.Item>
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Flex wrap="wrap" gap="small">
-            <Button
-              loading={loading}
-              disabled={disablebButton}
-              type="primary"
-              htmlType="submit"
-              onClick={handleCadastroUsuario}
+          <Form
+            name="nest-messages"
+            style={{ maxWidth: 600 }}
+            {...layout}
+            validateMessages={validateMessages}
+          >
+            <Form.Item
+              name={'email'}
+              label="Email"
+              rules={[{ required: true, type: 'email' }]}
             >
-              Gravar
-            </Button>
+              <Input
+                value={usuario.email}
+                placeholder="e-mail"
+                type="email"
+                onChange={handleEmail}
+              />
+            </Form.Item>
 
-            <Button type="dashed" danger onClick={handleOnClickCancelar}>
-              Cancelar
-            </Button>
-          </Flex>
-        </Form.Item>
-      </Form>
+            <Form.Item name={'nome'} label="Nome" rules={[{ required: true }]}>
+              <Input
+                value={usuario.name}
+                placeholder="nome"
+                type="text"
+                onChange={handleName}
+              />
+            </Form.Item>
+
+            <Form.Item name={'password'} label="Senha" rules={[{ required: true }]}>
+              <Input
+                value={usuario.password}
+                placeholder="password"
+                type="password"
+                onChange={handlePassword}
+              />
+            </Form.Item>
+
+            <Form.Item name={'vendedor'} label="Vendedor">
+              <Select
+                showSearch
+                style={{ width: '100%' }}
+                placeholder="selecionar vendedor"
+                options={vendedores.map((vendedor) => ({
+                  value: `${vendedor.idVendedor}`,
+                  label: ` ${vendedor.idVendedor}-${vendedor.nome}`,
+                }))}
+                onChange={handleVendedor}
+              />
+            </Form.Item>
+            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+              <Flex wrap="wrap" gap="small">
+                <Button
+                  loading={loading}
+                  disabled={disablebButton}
+                  type="primary"
+                  htmlType="submit"
+                  onClick={handleCadastroUsuario}
+                >
+                  Gravar
+                </Button>
+
+                <Button type="dashed" danger onClick={handleOnClickCancelar}>
+                  Cancelar
+                </Button>
+              </Flex>
+            </Form.Item>
+          </Form>
+        </div>
+      </Content>
     </Screen>
   );
 };
