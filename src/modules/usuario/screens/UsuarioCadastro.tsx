@@ -1,3 +1,4 @@
+import { CloseSquareOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import { Button, Flex, Form, Input, Select, theme } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { useEffect } from 'react';
@@ -70,7 +71,7 @@ const UsuarioCadastro: React.FC = () => {
         },
 
         {
-          name: 'Cadastrar Usuário',
+          name: 'Cadastrar',
         },
       ]}
     >
@@ -143,11 +144,17 @@ const UsuarioCadastro: React.FC = () => {
                   type="primary"
                   htmlType="submit"
                   onClick={handleCadastroUsuario}
+                  icon={<PlusSquareOutlined />}
                 >
                   Gravar
                 </Button>
 
-                <Button type="dashed" danger onClick={handleOnClickCancelar}>
+                <Button
+                  type="dashed"
+                  danger
+                  onClick={handleOnClickCancelar}
+                  icon={<CloseSquareOutlined />}
+                >
                   Cancelar
                 </Button>
               </Flex>

@@ -1,3 +1,4 @@
+import { PlusSquareOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
 import { useEffect } from 'react';
@@ -60,7 +61,11 @@ const Usuario = () => {
     >
       <BoxButtons>
         <LimitSize></LimitSize>
-        <Button onClick={handleOnClickInserir} type="primary">
+        <Button
+          onClick={handleOnClickInserir}
+          type="primary"
+          icon={<PlusSquareOutlined />}
+        >
           Cadastrar
         </Button>
       </BoxButtons>

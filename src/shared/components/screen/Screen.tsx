@@ -21,15 +21,11 @@ interface ScreenPops {
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-const acao = () => {
-  alert('CLICOU');
-};
-
 const items: MenuItem[] = [
   getItem('Option 1', '1', <PieChartOutlined />),
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [
-    getItem('', '', <DatabaseOutlined onClick={acao} />),
+    getItem('', '', <DatabaseOutlined />),
     getItem('Bill', '4'),
     getItem('Alex', '5'),
   ]),
@@ -55,6 +51,10 @@ function getItem(
 }
 
 const Screen = ({ children, listBreadcrumb }: ScreenPops) => {
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('clickado ', e.key);
+  };
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -69,16 +69,23 @@ const Screen = ({ children, listBreadcrumb }: ScreenPops) => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={['1']}
+          mode="inline"
+          items={items}
+          onClick={onClick}
+        />
       </Sider>
 
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header style={{ padding: 0, background: colorBgContainer }}></Header>
+
         <Content style={{ margin: '0 16px' }}>
           {listBreadcrumb && (
             <>
               <Breadcrumb listBreadcrumb={listBreadcrumb} />
-              <Divider />
+              <Divider style={{ margin: '2px 0' }} />
             </>
           )}
           {children}
