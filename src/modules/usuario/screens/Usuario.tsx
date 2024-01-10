@@ -1,10 +1,14 @@
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Layout, theme } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 import Table, { ColumnsType } from 'antd/es/table';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Screen from '../../../shared/components/screen/Screen';
+import ContentBreadCrump from '../../../shared/components/layout/ContentBreadCrump';
+import Footer from '../../../shared/components/layout/Footer';
+import Header from '../../../shared/components/layout/Header';
+import Sider from '../../../shared/components/layout/Sider';
 import { URL_USUARIOS } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
@@ -37,7 +41,11 @@ const columns: ColumnsType<UsuarioTypes> = [
   },
 ];
 
-const Usuario = () => {
+const Usuario: React.FC = () => {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   const { usuarios, setUsuarios } = useDataContext();
   const { request } = useRequests();
   const navigate = useNavigate();
@@ -49,28 +57,50 @@ const Usuario = () => {
   const handleOnClickInserir = () => navigate(UsuarioRoutesEnum.USUARIO_STORE);
 
   return (
-    <Screen
-      listBreadcrumb={[
-        {
-          name: 'Home',
-        },
-        {
-          name: 'Usuários',
-        },
-      ]}
+    <Layout
+      style={{
+        padding: '12px 12px',
+        borderRadius: borderRadiusLG,
+      }}
     >
-      <BoxButtons>
-        <LimitSize></LimitSize>
-        <Button
-          onClick={handleOnClickInserir}
-          type="primary"
-          icon={<PlusSquareOutlined />}
+      <Header />
+
+      <ContentBreadCrump
+        listBreadcrumb={[
+          {
+            name: 'Home',
+          },
+          {
+            name: 'Usuários',
+          },
+        ]}
+      >
+        <Layout
+          style={{
+            padding: '0px 0px',
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
         >
-          Cadastrar
-        </Button>
-      </BoxButtons>
-      <Table columns={columns} dataSource={usuarios}></Table>
-    </Screen>
+          <Sider />
+          <Content style={{ padding: '0px 12px', minHeight: 280 }}>
+            <BoxButtons>
+              <LimitSize />
+              <Button
+                onClick={handleOnClickInserir}
+                type="primary"
+                icon={<PlusSquareOutlined />}
+              >
+                Cadastrar
+              </Button>
+            </BoxButtons>
+
+            <Table columns={columns} dataSource={usuarios}></Table>
+          </Content>
+        </Layout>
+      </ContentBreadCrump>
+      <Footer />
+    </Layout>
   );
 };
 
