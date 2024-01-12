@@ -9,9 +9,10 @@ import ContentBreadCrump from '../../../shared/components/layout/ContentBreadCru
 import Footer from '../../../shared/components/layout/Footer';
 import Header from '../../../shared/components/layout/Header';
 import Sider from '../../../shared/components/layout/Sider';
-import { URL_USUARIOS } from '../../../shared/constants/urls';
+import { URL_USER, URL_USUARIOS } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { UsuarioTypes } from '../../../shared/types/UsuarioTypes';
 import { BoxButtons, LimitSize } from '../../produto/styles/produto.style';
@@ -48,10 +49,12 @@ const Usuario: React.FC = () => {
 
   const { usuarios, setUsuarios } = useDataContext();
   const { request } = useRequests();
+  const { setUser } = useGlobalContext();
   const navigate = useNavigate();
 
   useEffect(() => {
     request<UsuarioTypes[]>(URL_USUARIOS, MethodsEnum.GET, setUsuarios);
+    request(URL_USER, MethodsEnum.GET, setUser);
   }, []);
 
   const handleOnClickInserir = () => navigate(UsuarioRoutesEnum.USUARIO_STORE);
