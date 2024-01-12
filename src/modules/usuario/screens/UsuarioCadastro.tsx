@@ -94,7 +94,7 @@ const UsuarioCadastro: React.FC = () => {
         >
           <Sider />
 
-          <Content style={{ padding: '0px 12px', minHeight: 280 }}>
+          <Content style={{ padding: '0px 12px', minHeight: 420, maxHeight: 420 }}>
             <BoxButtons>
               <LimitSize />
             </BoxButtons>

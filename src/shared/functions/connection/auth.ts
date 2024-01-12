@@ -27,3 +27,8 @@ export const verifyLoggedIn = async () => {
 
   return null;
 };
+
+export const logOut = () => {
+  unsetAuthorizationToken();
+  location.href = '/login';
+};

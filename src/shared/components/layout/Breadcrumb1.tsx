@@ -19,7 +19,7 @@ const Breadcrumb1 = ({ listBreadcrumb }: BreadcrumbProps) => {
 
   return (
     <>
-      <BreadcrumbAntd style={{ margin: '12px 0' }}>
+      <BreadcrumbAntd style={{ margin: '12px 0', fontSize: 16 }}>
         {listBreadcrumb.map((breadcrumb, index) => (
           <BreadcrumbAntd.Item key={`breadcrumb_${index}`}>
             {breadcrumb.navigateTo ? (

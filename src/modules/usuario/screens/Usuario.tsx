@@ -95,7 +95,7 @@ const Usuario: React.FC = () => {
               </Button>
             </BoxButtons>
 
-            <Table columns={columns} dataSource={usuarios}></Table>
+            <Table columns={columns} dataSource={usuarios} />
           </Content>
         </Layout>
       </ContentBreadCrump>
