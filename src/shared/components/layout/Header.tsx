@@ -1,6 +1,7 @@
 import { LogoutOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, Popconfirm, theme } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 import { logOut } from '../../functions/connection/auth';
 import { useGlobalContext } from '../../hooks/useGlobalContext';
@@ -13,6 +14,7 @@ const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
 }));
 
 const Header = () => {
+  const navigate = useNavigate();
   const { user } = useGlobalContext();
 
   const {
@@ -44,7 +46,7 @@ const Header = () => {
           cancelText="Cancelar"
           okText="Sim"
           disabled={false}
-          onConfirm={logOut}
+          onConfirm={() => logOut(navigate)}
         >
           <LogoutOutlined style={{ fontSize: '22px', color: '#f5f9fa' }} />
         </Popconfirm>

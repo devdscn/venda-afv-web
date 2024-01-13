@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 
+import { FirstScreenRoutesEnum } from '../../modules/firstScreen/routes';
 import { Authtype } from '../../modules/login/types/AuthType';
-import { UsuarioRoutesEnum } from '../../modules/usuario/routes';
 import { ERRO_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connection/auth';
@@ -14,7 +14,7 @@ import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { setNotification, setUser } = useGlobalContext();
 
   const request = async <T>(
@@ -42,17 +42,20 @@ export const useRequests = () => {
     return retunrObject;
   };
 
-  const authRequest = async (body: unknown): Promise<void> => {
+  const authRequest = async (
+    navigate: NavigateFunction,
+    body: unknown,
+  ): Promise<void> => {
     setLoading(true);
 
     await connectionAPIPost<Authtype>(URL_AUTH, body)
       .then((result) => {
-        setNotification('Entrando...', 'success');
+        //  setNotification('Entrando...', 'success');
         setUser(result.user);
 
         //grava token no localStorage
         setAuthorizationToken(result.token);
-        navigate(UsuarioRoutesEnum.USUARIOS);
+        navigate(FirstScreenRoutesEnum.FIRST_SCREEN);
         return result;
       })
       .catch(() => {

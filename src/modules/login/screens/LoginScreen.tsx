@@ -2,6 +2,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Typography } from 'antd';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ContainerLogin } from '../styles/loginScreen.styles';
@@ -9,6 +10,7 @@ import { ContainerLogin } from '../styles/loginScreen.styles';
 const { Title } = Typography;
 
 const LoginScreen: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { authRequest, loading } = useRequests();
@@ -24,10 +26,7 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleLogin = () => {
-    authRequest({
-      email: email,
-      password: password,
-    });
+    authRequest(navigate, { email: email, password: password });
   };
 
   return (
