@@ -1,31 +1,29 @@
 import {
-  DatabaseOutlined,
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
+  HomeOutlined,
+  ShopOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
+import { UsuarioRoutesEnum } from '../../../modules/usuario/routes';
 
 const { Sider: SiderAntD } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('', '', <DatabaseOutlined />),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
+  getItem('Principal', '', <HomeOutlined />),
+  getItem('Usuários', 'usuario', <UserOutlined />, [
+    getItem('Visualizar', 'usuarios'),
+    getItem('Cadastrar', 'usuarios_cadastrar'),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [
-    getItem('Team 1', '6'),
-    getItem('Team 2', '8'),
+  getItem('Empresas', 'empresas', <ShopOutlined />, [getItem('Visualizar', 'empresas')]),
+  getItem('Vendedores', 'vendedores', <TeamOutlined />, [
+    getItem('Visualizar', 'empresas'),
   ]),
-  getItem('Files', '9', <FileOutlined />),
 ];
 
 function getItem(
@@ -47,8 +45,17 @@ const Sider = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('clickado ', e.key);
+    switch (e.key) {
+      case 'usuarios':
+        navigate(UsuarioRoutesEnum.USUARIOS);
+        break;
+
+      case 'usuarios_cadastrar':
+        navigate(UsuarioRoutesEnum.USUARIO_STORE);
+    }
   };
 
   //const [collapsed, setCollapsed] = useState(false);
@@ -63,8 +70,8 @@ const Sider = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={['usuarios_cadastrar']}
+        defaultOpenKeys={['usuario']}
         style={{ height: '100%', borderRadius: borderRadiusLG }}
         items={items}
         onClick={onClick}
