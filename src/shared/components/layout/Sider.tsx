@@ -9,6 +9,7 @@ import { Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import { UsuarioRoutesEnum } from '../../../modules/usuario/routes';
+import { useGlobalContext } from '../../hooks/useGlobalContext';
 
 const { Sider: SiderAntD } = Layout;
 
@@ -20,9 +21,9 @@ const items: MenuItem[] = [
     getItem('Visualizar', 'usuarios'),
     getItem('Cadastrar', 'usuarios_cadastrar'),
   ]),
-  getItem('Empresas', 'empresas', <ShopOutlined />, [getItem('Visualizar', 'empresas')]),
-  getItem('Vendedores', 'vendedores', <TeamOutlined />, [
-    getItem('Visualizar', 'empresas'),
+  getItem('Empresas', 'empresa', <ShopOutlined />, [getItem('Visualizar', 'empresas')]),
+  getItem('Vendedores', 'vendedor', <TeamOutlined />, [
+    getItem('Visualizar', 'vendedores'),
   ]),
 ];
 
@@ -45,9 +46,12 @@ const Sider = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const { itemSelectedMenu, setitemSelectedMenu, selectedMenu } = useGlobalContext();
   const navigate = useNavigate();
 
   const onClick: MenuProps['onClick'] = (e) => {
+    setitemSelectedMenu([e.key]);
+
     switch (e.key) {
       case 'usuarios':
         navigate(UsuarioRoutesEnum.USUARIOS);
@@ -70,8 +74,9 @@ const Sider = () => {
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={['usuarios_cadastrar']}
-        defaultOpenKeys={['usuario']}
+        //  defaultSelectedKeys={['empresas']}
+        defaultOpenKeys={selectedMenu}
+        selectedKeys={itemSelectedMenu}
         style={{ height: '100%', borderRadius: borderRadiusLG }}
         items={items}
         onClick={onClick}

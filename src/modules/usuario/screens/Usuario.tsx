@@ -12,6 +12,7 @@ import Sider from '../../../shared/components/layout/Sider';
 import { URL_USUARIOS } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { UsuarioTypes } from '../../../shared/types/UsuarioTypes';
 import { BoxButtons, LimitSize } from '../../produto/styles/produto.style';
@@ -48,10 +49,11 @@ const Usuario: React.FC = () => {
 
   const { usuarios, setUsuarios } = useDataContext();
   const { request } = useRequests();
-  // const { setUser } = useGlobalContext();
+  const { setSelectedMenu } = useGlobalContext();
   const navigate = useNavigate();
 
   useEffect(() => {
+    setSelectedMenu(['usuario']);
     request<UsuarioTypes[]>(URL_USUARIOS, MethodsEnum.GET, setUsuarios);
     //  request(URL_USER, MethodsEnum.GET, setUser);
   }, []);

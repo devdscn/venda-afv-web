@@ -13,6 +13,8 @@ interface NotificationProps {
 interface GlobalData {
   notification?: NotificationProps;
   user?: UserType;
+  itemSelectedMenu?: string[];
+  selectedMenu?: string[];
 }
 
 interface GlobalContextProps {
@@ -62,9 +64,27 @@ export const useGlobalContext = () => {
     });
   };
 
+  const setitemSelectedMenu = (itemSelectedMenu: string[]) => {
+    setGlobalData({
+      ...globalData,
+      itemSelectedMenu: itemSelectedMenu,
+    });
+  };
+
+  const setSelectedMenu = (selectedMenu: string[]) => {
+    setGlobalData({
+      ...globalData,
+      selectedMenu: selectedMenu,
+    });
+  };
+
   return {
     notification: globalData?.notification,
     user: globalData?.user,
+    itemSelectedMenu: globalData?.itemSelectedMenu,
+    selectedMenu: globalData?.selectedMenu,
+    setitemSelectedMenu,
+    setSelectedMenu,
     setUser,
     setNotification,
   };

@@ -11,6 +11,7 @@ import Sider from '../../../shared/components/layout/Sider';
 import { URL_VENDEDORES } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { BoxButtons, LimitSize } from '../../produto/styles/produto.style';
 import { useCadastraUsuario } from '../hooks/useCadastraUsuario';
@@ -49,11 +50,14 @@ const UsuarioCadastro: React.FC = () => {
   } = useCadastraUsuario();
   const { vendedores, setVendedores } = useDataContext();
 
+  const { setSelectedMenu } = useGlobalContext();
+
   const { request } = useRequests();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (vendedores.length === 0) {
+    setSelectedMenu(['usuario']);
+    if (!vendedores || vendedores.length === 0) {
       request(URL_VENDEDORES, MethodsEnum.GET, setVendedores);
     }
   }, []);
