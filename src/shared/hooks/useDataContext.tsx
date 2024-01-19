@@ -2,12 +2,14 @@ import { createContext, useContext, useState } from 'react';
 
 import { ProdutoTypes } from '../../modules/produto/types/ProdutoTypes';
 import { UsuarioTypes } from '../types/UsuarioTypes';
+import { EmpresaTypes } from '../types/UsuarioTypes copy';
 import { VendedorTypes } from '../types/VendedorTypes';
 
 interface DataContext {
   produtos?: ProdutoTypes[];
   usuarios?: UsuarioTypes[];
   vendedores?: VendedorTypes[];
+  empresas?: EmpresaTypes[];
 }
 
 interface DataContextProps {
@@ -45,12 +47,18 @@ export const useDataContext = () => {
     setData({ ...data, vendedores });
   };
 
+  const setEmpresas = (empresas: EmpresaTypes[]) => {
+    setData({ ...data, empresas });
+  };
+
   return {
     produtos: data?.produtos || [],
     usuarios: data?.usuarios || [],
     vendedores: data?.vendedores || [],
+    empresas: data?.empresas || [],
     setProdutos,
     setUsuarios,
     setVendedores,
+    setEmpresas,
   };
 };

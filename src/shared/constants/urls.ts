@@ -11,3 +11,5 @@ export const URL_USUARIOS = 'http://localhost:3001/users';
 export const URL_USUARIO = 'http://localhost:3001/users/store';
 
 export const URL_VENDEDORES = 'http://localhost:3001/vendedores';
+
+export const URL_EMPRESAS = 'http://localhost:3001/empresas';

@@ -8,6 +8,7 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
+import { EmpresaRoutesEnum } from '../../../modules/empresa/routes';
 import { UsuarioRoutesEnum } from '../../../modules/usuario/routes';
 import { useGlobalContext } from '../../hooks/useGlobalContext';
 
@@ -59,6 +60,11 @@ const Sider = () => {
 
       case 'usuarios_cadastrar':
         navigate(UsuarioRoutesEnum.USUARIO_STORE);
+        break;
+
+      case 'empresas':
+        navigate(EmpresaRoutesEnum.EMPRESAS);
+        break;
     }
   };
 

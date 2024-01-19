@@ -4,6 +4,7 @@ import type { Router as RemixRouter } from '@remix-run/router';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router-dom';
 
+import { empresaScreens } from './modules/empresa/routes';
 import { firstScreenRoutes } from './modules/firstScreen/routes';
 import { loginRoutes } from './modules/login/routes';
 import { produtoScreens } from './modules/produto/routes';
@@ -21,6 +22,7 @@ import { useRequests } from './shared/hooks/useRequests';
 const routes: RouteObject[] = [...loginRoutes];
 
 const routesLoggedIn: RouteObject[] = [
+  ...empresaScreens,
   ...usuarioScreens,
   ...produtoScreens,
   ...firstScreenRoutes,
