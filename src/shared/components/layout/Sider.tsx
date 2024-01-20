@@ -1,4 +1,6 @@
 import {
+  BoxPlotFilled,
+  EyeFilled,
   HomeOutlined,
   ShopOutlined,
   TeamOutlined,
@@ -9,6 +11,7 @@ import { Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 import { EmpresaRoutesEnum } from '../../../modules/empresa/routes';
+import { ProdutoRoutesEnum } from '../../../modules/produto/routes';
 import { UsuarioRoutesEnum } from '../../../modules/usuario/routes';
 import { useGlobalContext } from '../../hooks/useGlobalContext';
 
@@ -25,6 +28,10 @@ const items: MenuItem[] = [
   getItem('Empresas', 'empresa', <ShopOutlined />, [getItem('Visualizar', 'empresas')]),
   getItem('Vendedores', 'vendedor', <TeamOutlined />, [
     getItem('Visualizar', 'vendedores'),
+  ]),
+
+  getItem('Produtos', 'produto', <BoxPlotFilled />, [
+    getItem('Visualizar', 'produtos_lista', <EyeFilled />),
   ]),
 ];
 
@@ -64,6 +71,10 @@ const Sider = () => {
 
       case 'empresas':
         navigate(EmpresaRoutesEnum.EMPRESAS);
+        break;
+
+      case 'produtos_lista':
+        navigate(ProdutoRoutesEnum.PRODUTO_EMPRESA);
         break;
     }
   };

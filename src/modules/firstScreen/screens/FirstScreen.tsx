@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
-import { UsuarioRoutesEnum } from '../../usuario/routes';
+import { EmpresaRoutesEnum } from '../../empresa/routes';
 
 const FirstScreen: React.FC = () => {
   const { user } = useGlobalContext();
@@ -11,7 +11,7 @@ const FirstScreen: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      nagivate(UsuarioRoutesEnum.USUARIOS);
+      nagivate(EmpresaRoutesEnum.EMPRESAS);
     }
   }, [user]);
 

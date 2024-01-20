@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 
-import { EmpresaRoutesEnum } from '../../modules/empresa/routes';
+import { FirstScreenRoutesEnum } from '../../modules/firstScreen/routes';
 import { Authtype } from '../../modules/login/types/AuthType';
 import { ERRO_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
@@ -55,7 +55,7 @@ export const useRequests = () => {
 
         //grava token no localStorage
         setAuthorizationToken(result.token);
-        navigate(EmpresaRoutesEnum.EMPRESAS);
+        navigate(FirstScreenRoutesEnum.FIRST_SCREEN);
         return result;
       })
       .catch(() => {

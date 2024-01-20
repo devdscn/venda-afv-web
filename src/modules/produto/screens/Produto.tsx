@@ -1,10 +1,14 @@
-import { Button } from 'antd';
+import { Button, Layout, theme } from 'antd';
 import { Input } from 'antd';
+import { Content } from 'antd/es/layout/layout';
 import Table, { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Screen from '../../../shared/components/screen/Screen';
+import ContentBreadCrump from '../../../shared/components/layout/ContentBreadCrump';
+import Footer from '../../../shared/components/layout/Footer';
+import Header from '../../../shared/components/layout/Header';
+import Sider from '../../../shared/components/layout/Sider';
 import { URL_PRODUTO_EMPRESA } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { convertNumberToMoney } from '../../../shared/functions/connection/money';
@@ -52,6 +56,10 @@ const columns: ColumnsType<ProdutoTypes> = [
 ];
 
 const Produto = () => {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   const { produtos, setProdutos } = useDataContext();
   const [produtosFiltrados, setProdutosFiltrados] = useState<ProdutoTypes[]>([]);
   const { request } = useRequests();
@@ -95,30 +103,50 @@ const Produto = () => {
   };
 
   return (
-    <Screen
-      listBreadcrumb={[
-        {
-          name: 'HOME',
-        },
-        {
-          name: 'PRODUTOS',
-        },
-      ]}
+    <Layout
+      style={{
+        padding: '12px 12px',
+        borderRadius: borderRadiusLG,
+      }}
     >
-      <BoxButtons>
-        <LimitSize>
-          <Search placeholder="Buscar produto" onSearch={onSearch} enterButton />
-        </LimitSize>
-        <Button onClick={handleOnclickConsultar} type="primary">
-          Consultar
-        </Button>
-      </BoxButtons>
-      <Table
-        columns={columns}
-        dataSource={produtosFiltrados}
-        pagination={paginaConfig}
-      ></Table>
-    </Screen>
+      <Header />
+      <ContentBreadCrump
+        listBreadcrumb={[
+          {
+            name: 'Home',
+          },
+          {
+            name: 'Produtos',
+          },
+        ]}
+      >
+        <Layout
+          style={{
+            padding: '0px 0px',
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Sider />
+          <Content style={{ margin: '0px 36px', padding: '0px 12px', minHeight: 280 }}>
+            <BoxButtons>
+              <LimitSize>
+                <Search placeholder="Buscar produto" onSearch={onSearch} enterButton />
+              </LimitSize>
+              <Button onClick={handleOnclickConsultar} type="primary">
+                Consultar
+              </Button>
+            </BoxButtons>
+            <Table
+              columns={columns}
+              dataSource={produtosFiltrados}
+              pagination={paginaConfig}
+            ></Table>
+          </Content>
+        </Layout>
+      </ContentBreadCrump>
+      <Footer />
+    </Layout>
   );
 };
 export default Produto;
