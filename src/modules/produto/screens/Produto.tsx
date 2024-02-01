@@ -13,6 +13,7 @@ import { URL_PRODUTO_EMPRESA } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { convertNumberToMoney } from '../../../shared/functions/connection/money';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import useEmpresa from '../../../shared/hooks/useEmpresa';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import GrupoColuna from '../components/GrupoColuna';
 import { ProdutoRoutesEnum } from '../routes';
@@ -63,6 +64,7 @@ const Produto = () => {
   const { produtos, setProdutos } = useDataContext();
   const [produtosFiltrados, setProdutosFiltrados] = useState<ProdutoTypes[]>([]);
   const { request } = useRequests();
+  const { empresa } = useEmpresa();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,7 +73,7 @@ const Produto = () => {
 
   useEffect(() => {
     request<ProdutoTypes[]>(
-      URL_PRODUTO_EMPRESA.replace('{idEmpresa}', '1'),
+      URL_PRODUTO_EMPRESA.replace('{idEmpresa}', empresa.id.toString()),
       MethodsEnum.GET,
       setProdutos,
     );

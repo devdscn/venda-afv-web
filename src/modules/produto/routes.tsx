@@ -4,7 +4,7 @@ import Produto from './screens/Produto';
 import ProdutoConsultar from './screens/ProdutoConsultar';
 export enum ProdutoRoutesEnum {
   PRODUTO = '/produto',
-  PRODUTO_EMPRESA = '/produto/:idEmpresa',
+  PRODUTO_EMPRESA = '/produtos',
   PRODUTO_CONSULTAR = '/produto/consultar',
 }
 

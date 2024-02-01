@@ -12,7 +12,7 @@ import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
-import { EmpresaTypes } from '../../../shared/types/UsuarioTypes copy';
+import { EmpresaTypes } from '../../../shared/types/EmpresaTypes';
 import { BoxButtons, LimitSize } from '../../produto/styles/produto.style';
 
 const columns: TableColumnsType<EmpresaTypes> = [

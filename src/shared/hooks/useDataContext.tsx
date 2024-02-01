@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 import { ProdutoTypes } from '../../modules/produto/types/ProdutoTypes';
 import { UsuarioTypes } from '../types/UsuarioTypes';
-import { EmpresaTypes } from '../types/UsuarioTypes copy';
+import { EmpresaTypes } from '../types/EmpresaTypes';
 import { VendedorTypes } from '../types/VendedorTypes';
 
 interface DataContext {
